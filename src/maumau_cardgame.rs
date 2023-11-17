@@ -69,6 +69,8 @@ impl MauMauCardGame{
         let mut pl_json = JSONObject::new();
         let pl_cards = &self.state.players[player_id].hand;
         //TODO: handle unwrap err
+        pl_json.add("deck_cards_count".into(),
+                    Keyvalue::Value(format!("{}", self.state.deck.len()) ));
         pl_json.add("top_card".into(),
                     self.state.layed_cards.last()
                     .unwrap_or(&Card::new(Heart, 0)).as_json_val());

@@ -85,31 +85,7 @@ impl SessionController{
                 "/maumau/session/create" => {
                     return Self::create_session(self, request);
                 },
-                /*
-                "/maumau/session/all" => {
-                    return self.get_all_sessions();
-                },
-                "/maumau/session/join" => {
-                    //TODO: add session state check, if still accepting new players
-                    if let Some(session_key) = request.url.query.get("sessionkey"){
-                        return self.join_session(session_key);
-                    }
-                },
-                "/maumau/session/start" => {
-                    return self.start_session(request);
-                },
-
-                "/mauamau/handcard" => {
-                    return self.handle_card_input(request);
-                },
-                "/maumau/handcard/saymau" => {
-                    return self.handle_mau_input(request);
-                },
-                "/maumau/handcard/pass" => {
-                    return self.handle_pass_draw(request);
-                }
-                */
-                _ => {},
+               _ => {},
             };
         return Response::new( "HTTP/1.1 404 NOT FOUND", "too bad no api endpoint".into());
     }
@@ -135,9 +111,18 @@ impl SessionController{
             session_key = SessionController::generate_session_key();
         }
 
+        let pl_max_num : usize = if let Some(num) = _request.url.query.get("maxplayercount"){
+            num.parse().unwrap_or(0)
+        }
+        else{0};
+
         let mut game_session =
-                GameSession::new(reciever, ses_ctrl.http_response_send.clone());
-        let player_key = game_session.add_player();
+                GameSession::new(reciever, ses_ctrl.http_response_send.clone(), pl_max_num);
+        let name = if let Some(name) = _request.url.query.get("plname"){
+            name
+        }
+        else{""};
+        let player_key = game_session.add_player(name);
 
         let mut content = JSONObject::new();
         content.add("session_key".to_string(), Keyvalue::Value(session_key.clone()));
@@ -205,6 +190,7 @@ pub enum SessionState{
 
 pub struct GameSessionData{
     pub state : SessionState,
+    pub max_player_count : usize,
     pub player_keys : HashMap<String, usize>,
     pub game : MauMauCardGame,
 }
@@ -213,8 +199,6 @@ type ReqHType = GameSessionData;//(&'a mut HashMap<String, usize>, &'a mut MauMa
 
 pub struct GameSession{
     pub data : GameSessionData,
-    //pub player_keys : HashMap<String, usize>,
-    //pub game : MauMauCardGame,
     pub input_reciever : crossbeam_channel::Receiver<String>,
     pub http_resp_sender : crossbeam_channel::Sender<Response>,
     pub req_handler : RequestHandler<ReqHType>,
@@ -225,12 +209,14 @@ impl GameSession{
     fn new(
         input_reciever : crossbeam_channel::Receiver<String>,
         http_resp_sender : crossbeam_channel::Sender<Response>,
+        max_player_count : usize,
         ) -> Self{
         let game = MauMauCardGame::new();
         let mut req_handler : RequestHandler<ReqHType>= RequestHandler::new();
         Self::setup_req_waiting_handler(&mut req_handler);
         Self{
             data : GameSessionData{
+                max_player_count,
                state : SessionState::Waiting,
                player_keys : HashMap::new(),
                game,
@@ -283,8 +269,8 @@ impl GameSession{
 
     }
 
-    pub fn add_player(&mut self) -> String{
-        self.data.add_player()
+    pub fn add_player(&mut self, pl_name : &str) -> String{
+        self.data.add_player(pl_name)
     }
 
     fn start_session(session : &mut ReqHType, _request : &Request) -> Response{
@@ -301,7 +287,14 @@ impl GameSession{
         if let SessionState::InPlay = data.state {
             return Response::new("HTTP/1.1 400 cant join session; already in play", Vec::new());
         }
-                let player_key = data.add_player();
+        if data.player_keys.len() >= data.max_player_count {
+            return Response::new("HTTP/1.1 400 cant join session; max players reached", Vec::new());
+        }
+        let name = if let Some(name) = _request.url.query.get("plname"){
+            name
+        }
+        else{""};
+            let player_key = data.add_player(name);
                 let mut content = JSONObject::new();
                 content.add("player_key".into(), Keyvalue::Value(player_key));
 
@@ -416,12 +409,12 @@ impl GameSession{
 }
 
 impl GameSessionData{
-    pub fn add_player(&mut self) -> String{
+    pub fn add_player(&mut self, pl_name : &str) -> String{
         let mut player_key = Self::generate_player_key();
         while let Some(_kv) = self.player_keys.get(&player_key){
             player_key = Self::generate_player_key();
         }
-        let player_id = self.game.add_player(&player_key);
+        let player_id = self.game.add_player(pl_name);
         self.player_keys.insert(player_key.clone(), player_id);
 
         player_key

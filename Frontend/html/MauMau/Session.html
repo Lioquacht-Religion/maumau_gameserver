@@ -14,18 +14,46 @@
         </head>
 
         <body>
-
-            <div class="MauMau-Session Selection">
+            <div class="CreateSection">
+                Your Playername:
+                <input id="PlayerNameBox" type="text"> </input>
+                Your Sessionname:
+                <input id="SessionNameBox" type="text"> </input>
+                Max Playercount:
+                <input id="MaxPlayerCountBox" type="number"> </input>
 
                 <button onclick="createSession()" >create new session</button><br>
 
-                <button onclick="getSessions()" >get current Sessions</button><br>
+            </div>
+            <br>
+
+            <div class="WaitSection">
+                <h1>Sessionname: </h1><h1 id="SessionName">None</h1>
+
+                <h1>Your Name: </h1><h1 id="PlayerName">None</h1>
+                cur joint players: <div id="JointPlayerCount">0</div>
 
                 <button onclick="startSession()" >start current Session</button><br>
+
+            </div>
+            <br>
+
+            <div class="SelectSection">
+
+                <button onclick="newSession()" >new Session</button><br>
+
+
+                <button onclick="getSessions()" >get current Sessions</button><br>
+
 
                 <div id="myFor"> </div>
 
             </div>
+            <br>
+
+            <div class="JoinSection">
+            </div>
+            <br>
 
 
             <header>

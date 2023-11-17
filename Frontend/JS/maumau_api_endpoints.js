@@ -93,37 +93,11 @@ document.getElementById("ChooseSymbolSection").hidden = true;
 
 }
 
-function updatePlayerState(state){
-    const TopcardWrapper = document.getElementById("topcard");
-    TopcardWrapper.innerHTML = "";
-    const HCardWrapper = document.getElementById("PlayerHCards");
-    HCardWrapper.innerHTML = "";
-
-    let h1_topcard = document.createElement("h1");
-    h1_topcard.innerText = "Topcard: " + state.top_card.card
-        + " " + state.top_card.value;
-    TopcardWrapper.appendChild(h1_topcard);
-
-
-    let items = state.hand_cards;
-
-
-
-            /*<div class="card">
-                <h1 class="cardsymbol">Symbol</>
-                <h1 class="cardnumber" id="topnumber">4</h1>
-                <h1 class="cardnumber" id="bottomnumber">4</h1>
-            </div>*/
-
-
-    for (let index = 0; index < items.length; index++) {
-        const element = items[index];
-        let btn = document.createElement("div");
+function getCardElem(element){
+     let btn = document.createElement("div");
         btn.className = "card";
-        btn.value = index;
         btn.dataset.cardvalue = element.value;
         //btn.innerText = "" + index + " : " + element.card + " " + element.value;
-        btn.onclick = function() {sendCardInput(btn, index);};
 
         let symbol = document.createElement("h1");
         symbol.className = "cardsymbol";
@@ -140,7 +114,36 @@ function updatePlayerState(state){
         btn.appendChild(cardval);
         btn.appendChild(cardval2);
 
-        HCardWrapper.appendChild(btn);
+    return btn;
+}
+
+function updatePlayerState(state){
+    const TopcardWrapper = document.getElementById("topcard");
+    TopcardWrapper.innerHTML = "";
+    const HCardWrapper = document.getElementById("PlayerHCards");
+    HCardWrapper.innerHTML = "";
+
+    let h1_topcard = document.createElement("h1");
+    h1_topcard.innerText = "Topcard: " + state.top_card.card
+        + " " + state.top_card.value;
+    TopcardWrapper.appendChild(h1_topcard);
+    TopcardWrapper.appendChild(getCardElem(state.top_card));
+
+    let items = state.hand_cards;
+
+            /*<div class="card">
+                <h1 class="cardsymbol">Symbol</>
+                <h1 class="cardnumber" id="topnumber">4</h1>
+                <h1 class="cardnumber" id="bottomnumber">4</h1>
+            </div>*/
+
+
+    for (let index = 0; index < items.length; index++) {
+        const element = items[index];
+        const card_elem = getCardElem(element);
+        card_elem.value = index;
+        card_elem.onclick = function() {sendCardInput(card_elem, index);};
+        HCardWrapper.appendChild(card_elem);
         //<button onclick="sendCardInput()" >send handcardnumber</button><br>
 
     }

@@ -1,0 +1,62 @@
+.navbar{
+    border-radius: 4%;
+    display: flex;
+    flex-direction: row;
+    background-color:brown;
+    height: 100;
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: large;
+    color: black;
+    border-width: 0px;
+
+}
+
+.navbar:hover{
+    border-radius: 4%;
+    display: flex;
+    flex-direction: row;
+    background-color:brown;
+    height: 100;
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: larger;
+    color: black;
+    border-width: 3px;
+    border-color: black;
+}
+ .navbit{
+    flex: 1;
+    color: white;
+    font-size: large;
+    font-weight: bold;
+    background-color: brown;
+}
+
+ .navbit:hover{
+    color: black;
+    font-weight: bolder;
+    border-width: 3px;
+    border-color: black;
+    background-color: crimson;
+}
+
+.homepage{
+    flex: 1;
+    background-color:brown;   
+}
+
+.charselect{
+    flex: 2;
+    background-color:crimson;
+}
+
+.download{
+    flex: 1;
+    background-color: brown;
+}
+
+.charsug{
+    flex: 2;
+    background-color: crimson;
+}

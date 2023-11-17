@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>MauMau</title>
+            <style type="text/css">
+                @import url("../../CSS/card.css");
+                @import url("../../CSS/maumauview_grid.css");
+            </style>
+            <script src="../../JS/maumau_api_endpoints.js"></script>
+            <script src="../../JS/maumauview_events.js"></script>
+            <script src="../../JS/maumauview.js"></script>
+        </head>
+
+        <body>
+            <div id="Turnstatus">
+                <h1>Turnstatus: </h1>
+            </div>
+
+            <div id="topcard">
+                <h1>Topcard</h1>
+            </div>
+
+            <div id="PlaySection">
+
+            <div id="MauButton" value=0>
+                <h1>MauButton</h1>
+                <br>
+                <button id="MauButton" value=0 onclick="sayMauMauState(this)"> no Mau </button>
+                <br>
+            </div>
+
+            <div id="PlayerHCards"> </div>
+
+            </div>
+
+            <div id="ChooseSymbolSection" hidden>
+                <h1> Wish For A Symbol </h1>
+                <button id="SymbolButton" value="Heart" onclick="sendWishCardInput(this)")> Heart </button>
+                <button id="SymbolButton" value="Diamond" onclick="sendWishCardInput(this)")> Diamond </button>
+                <button id="SymbolButton" value="Cross" onclick="sendWishCardInput(this)"> Cross </button>
+                <button id="SymbolButton" value="Leaf" onclick="sendWishCardInput(this)"> Leaf </button>
+            </div>
+
+            <div id="OppPlayers">
+                <h1>Opponents</h1>
+            </div>
+
+        </body>
+
+
+
+
+    </html>

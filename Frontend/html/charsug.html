@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Charactersuggestion</title>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+        <style type="text/css">
+            @import url("../CSS/navbar.css");
+            @import url("../CSS/basegrid.css");
+            @import url("../CSS/style.css");
+        </style>
+        <script src="../JS/general.js"></script>
+
+    </head>
+
+    <body>
+        <header>
+            <figure >
+                <img id="TitlePic" src="..\Media\singlePics\Housefighter-Titlescreen.png">
+             </figure>
+
+        </header>
+
+
+        <nav>
+            <div class="navbar">
+                <a class="navbit" href="index.html" target="_parent">Homepage</a>
+                <a class="navbit" href="charselect.html" target="_parent">Character-Select</a>
+                <a class="navbit" href="download.html" target="_parent">Download</a>
+                <a class="navbit" href="charsug.html" target="_parent">Character Suggestion</a>
+            </div>
+        </nav>
+
+        <h1>Character Suggestion</h1>
+
+        <article>
+            <form autocomplete="on" onsubmit="sendSuggestion(this)" method="post">
+                <p>Charactername:</p>
+                <input name= "name" required><br>
+                Characterdescription:<br>
+                <textarea rows="8" cols="50" name="description" required></textarea>
+                    <br>
+                Your E-Mail:<br>
+                <input type="email"  name="email" required><br>
+                <input type="submit" value="Senden"><br>
+            </form>
+
+
+                <input type="number" id="quantity" name="handcardnumber" min="0">
+                <button onclick="testPost()" >test http post</button><br>
+
+        </article>
+
+
+        <footer></footer>
+
+
+
+    </body>
+
+
+
+
+</html>

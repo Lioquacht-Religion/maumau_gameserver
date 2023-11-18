@@ -4,17 +4,37 @@
             <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
             <title>MauMau</title>
             <style type="text/css">
-                @import url("../CSS/navbar.css");
-                @import url("../CSS/basegrid.css");
-                @import url("../CSS/style.css");
+                @import url("../../CSS/sessionview.css");
+                @import url("../../CSS/sessionview_grid.css");
             </style>
 
-            <script src="../../JS/maumau_api_endpoints.js"></script>
+            <script src="../../JS/general.js"></script>
+            <script src="../../JS/sessionview_api_endpoints.js"></script>
             <script src="../../JS/sessionview_events.js"></script>
         </head>
 
         <body>
-            <div class="CreateSection">
+            <h1 id="Title">MauMau</h1>
+            <div id="SelectSectWrapper">
+            <div id="SelectSection" class="Active">
+                <div id="SelectButtons">
+
+                <button class="SelectBtn" onclick="newSession()" >new Session</button><br>
+
+                <button class="SelectBtn" onclick="getSessions()" >get current Sessions</button><br>
+
+
+                </div>
+
+
+                <table id="SessionsSelection"> </table>
+
+            </div>
+            </div>
+            <br>
+
+
+            <div id="CreateSection" class="NotActive" hidden>
                 Your Playername:
                 <input id="PlayerNameBox" type="text"> </input>
                 Your Sessionname:
@@ -27,7 +47,7 @@
             </div>
             <br>
 
-            <div class="WaitSection">
+            <div id="WaitSection" class="NotActive" hidden>
                 <h1>Sessionname: </h1><h1 id="SessionName">None</h1>
 
                 <h1>Your Name: </h1><h1 id="PlayerName">None</h1>
@@ -38,30 +58,9 @@
             </div>
             <br>
 
-            <div class="SelectSection">
-
-                <button onclick="newSession()" >new Session</button><br>
-
-
-                <button onclick="getSessions()" >get current Sessions</button><br>
-
-
-                <div id="myFor"> </div>
-
+            <div id="JoinSection" class="NotActive" hidden>
             </div>
             <br>
-
-            <div class="JoinSection">
-            </div>
-            <br>
-
-
-            <header>
-                <figure >
-                    <img id="TitlePic" src="..\Media\singlePics\Housefighter-Titlescreen.png">
-                 </figure>
-
-            </header>
 
 
         </body>

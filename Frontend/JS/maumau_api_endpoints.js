@@ -1,5 +1,4 @@
 
-const base_api = "http://192.168.2.63:7878"; //"http://127.0.0.1:7878";
 
 function getGameState(){
 const session_key = localStorage.getItem("session_key");
@@ -165,103 +164,5 @@ function updatePlayerState(state){
         paragr.innerText = "" + element.name + " : " + element.card_count;
         OppCardsWrapper.appendChild(paragr);
     }
-}
-
-function createSession(){
-const url = base_api + "/maumau/session/create";
-fetch(url, {
-  method: "GET",
-  headers: {
-    "Content-type": "application/json; charset=UTF-8"
-  }
-})
-  .then(response =>
-      response.json()
-      )
-      .then(json => {
-          console.log(json);
-          localStorage.setItem("session_key", json.session_key);
-          localStorage.setItem("player_key", json.player_key);
-      });
-}
-
-function startSession(){
-const url = base_api + "/maumau/session/start"
-    + "?sessionkey=" + localStorage.getItem("session_key")
-    + "&playerkey="  + localStorage.getItem("player_key");
-fetch(url, {
-  method: "POST",
-  headers: {
-    "Content-type": "application/json; charset=UTF-8",
-    "sessionkey": localStorage.getItem("sessionkey")
-  }
-})
-  .then(response => {
-      console.log(response);
-      window.location.href = base_api + "/html/MauMau/MauMau.html";
-  }
-  );
-}
-
-function getSessions(){
-
-const url = base_api + "/maumau/session/all";
-fetch(url, {
-  method: "GET",
-  headers: {
-    "Content-type": "application/json; charset=UTF-8"
-  }
-})
-  .then(response =>
-      response.json()
-      )
-      .then(json => {
-          console.log(json);
-          myForLoop(json.sessions);
-      });
-}
-
-class Session{
-    constructor(session_key, player_count){
-        this.session_key = session_key;
-        this.player_count = player_count;
-    }
-}
-
-function myForLoop(items){
-    const forWrapper = document.getElementById("myFor");
-    forWrapper.innerHTML = "";
-
-    for (let index = 0; index < items.length; index++) {
-        const element = items[index];
-        let btn = document.createElement("button");
-        btn.value = element.session_key;
-        btn.innerText = "" + index + " : " + element.session_key;
-        btn.onclick = function() {joinSession(this);};
-        forWrapper.appendChild(btn);
-        //<button onclick="sendCardInput()" >send handcardnumber</button><br>
-
-    }
-}
-
-function joinSession(element){
-
-    const session_key = element.value;
-    const url = base_api + "/maumau/session/join?sessionkey=" + session_key;
-fetch(url, {
-  method: "POST",
-  headers: {
-    "Content-type": "application/json; charset=UTF-8",
-      "sessionkey" : session_key
-  }
-})
-  .then(response =>
-      response.json()
-      )
-      .then(json => {
-          console.log(json);
-          localStorage.setItem("session_key", session_key);
-          localStorage.setItem("player_key", json.player_key);
-      });
 }
 

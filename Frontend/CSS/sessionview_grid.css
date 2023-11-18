@@ -1,0 +1,59 @@
+body{
+
+}
+
+div#SelectSection{
+    width : fit-content;
+    height : auto;
+    margin-left : auto;
+    margin-right : auto;
+    margin-top : 0;
+    padding-bottom : 100%;
+    padding-top : auto;
+    background-color : #b0b0b0;
+    display : grid;
+    grid-row-template : 100%;
+    grid-column-template : 20% 80%;
+
+}
+
+#SelectButtons{
+    grid-column : 1;
+    margin : 10px;
+    padding : 20px;
+    border-radius : 20px;
+
+    background-color : #bb4040;
+}
+
+button.SelectBtn{
+    width : 100%;
+}
+
+table#SessionsSelection{
+    grid-column : 2;
+    margin : 10px;
+    padding : 20px;
+    background-color : #bb9292;
+    border-radius : 20px;
+}
+
+tr{
+    display : table-row;
+    border: 1px solid black;
+    background-color : #bb7575;
+    border-radius : 20px;
+}
+
+tr:nth-child(even){
+    background-color : #ffffff;
+}
+
+th{
+    background-color : #cf6f6f;
+
+}
+
+td{
+}
+

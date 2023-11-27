@@ -1,8 +1,9 @@
-use std::{collections::HashMap, sync::{Arc, Mutex}, ops::ControlFlow};
+use std::{collections::HashMap, sync::{Arc, Mutex}};
 
 use rand::{Rng, distributions::Alphanumeric};
 
 use crate::{maumau_cardgame::{MauMauCardGame, PlayerAction, PlInpData}, my_http::{response::{Response, self}, request::{Request, self}, request_handler::RequestHandler, method::Method}, threadpool, my_json::{JSONObject, Keyvalue}, card_games::{CardPlayer, JACK, CardSymbol}};
+
 
 /*
  * TODO:
@@ -111,13 +112,21 @@ impl SessionController{
             session_key = SessionController::generate_session_key();
         }
 
+        let session_name = if let Some(name) = _request.url.query.get("name"){
+            name
+        }else{"missing sessionname"};
+
         let pl_max_num : usize = if let Some(num) = _request.url.query.get("maxplayercount"){
             num.parse().unwrap_or(0)
         }
         else{0};
 
         let mut game_session =
-                GameSession::new(reciever, ses_ctrl.http_response_send.clone(), pl_max_num);
+                GameSession::new(
+                    reciever,
+                    ses_ctrl.http_response_send.clone(),
+                    session_name.into(),
+                    pl_max_num);
         let name = if let Some(name) = _request.url.query.get("plname"){
             name
         }
@@ -157,8 +166,22 @@ impl SessionController{
             let mut json_session = JSONObject::new();
             json_session.add("session_key".into(), Keyvalue::Value(session_key.clone()));
             let session = session.lock().unwrap();
-            json_session.add("player_count".into(), Keyvalue::Value(session.data.player_keys.len().to_string()));
+            json_session.add(
+                "player_count".into(),
+                Keyvalue::Value(session.data.player_keys.len().to_string()));
+            json_session.add(
+                "max_player_count".into(),
+                Keyvalue::Value(session.data.max_player_count.to_string()));
+
+            json_session.add(
+                "session_name".into(),
+                Keyvalue::Value(session.data.name.to_string()));
+            json_session.add(
+                "session_state".into(),
+                Keyvalue::Value(session.data.state.as_string()));
             session_list.push(Keyvalue::Object(json_session));
+
+
         }
         content.add("sessions".into(), Keyvalue::List(session_list));
 
@@ -188,7 +211,21 @@ pub enum SessionState{
     InPlay,
 }
 
+impl SessionState{
+    pub fn as_string(&self) -> String{
+        use SessionState::*;
+        let str = match self{
+            ChangeState(_state) => "changing state",
+            Waiting => "Waiting",
+            InPlay => "InPlay",
+        };
+        String::from(str)
+
+    }
+}
+
 pub struct GameSessionData{
+    pub name : String,
     pub state : SessionState,
     pub max_player_count : usize,
     pub player_keys : HashMap<String, usize>,
@@ -209,6 +246,7 @@ impl GameSession{
     fn new(
         input_reciever : crossbeam_channel::Receiver<String>,
         http_resp_sender : crossbeam_channel::Sender<Response>,
+        name : &str,
         max_player_count : usize,
         ) -> Self{
         let game = MauMauCardGame::new();
@@ -216,6 +254,7 @@ impl GameSession{
         Self::setup_req_waiting_handler(&mut req_handler);
         Self{
             data : GameSessionData{
+                name : name.into(),
                 max_player_count,
                state : SessionState::Waiting,
                player_keys : HashMap::new(),

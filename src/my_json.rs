@@ -1,4 +1,4 @@
-use std::{collections::HashMap, error::Error, fmt::{Display, format}};
+use std::{collections::HashMap, fmt::Display};
 
 pub enum Keyvalue{
     Value(String),
@@ -34,6 +34,12 @@ impl Keyvalue{
 impl Display for Keyvalue{
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "")
+    }
+}
+
+impl From<&str> for Keyvalue{
+    fn from(value: &str) -> Self {
+        Keyvalue::Value(value.into())
     }
 }
 

@@ -2,7 +2,19 @@ body{
 
 }
 
-div#SelectSection{
+div.SessionSection{
+    width : fit-content;
+    height : auto;
+    margin-left : auto;
+    margin-right : auto;
+    margin-top : 0;
+    padding-bottom : 100%;
+    padding-top : auto;
+    background-color : #b0b0b0;
+}
+
+
+div#SelectSectWrapper{
     width : fit-content;
     height : auto;
     margin-left : auto;
@@ -56,4 +68,5 @@ th{
 
 td{
 }
+
 

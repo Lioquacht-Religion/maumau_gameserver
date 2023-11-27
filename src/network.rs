@@ -194,7 +194,9 @@ pub fn main(sender : InputSend, reciever : ResponseRec){
     //let mut _commands_thread = start_command_inputs(sender.clone());
 
     let listener = TcpListener::bind(
-        "192.168.2.63:7878"
+        "localhost:7878"
+        //"192.168.2.107:7878"
+        //"192.168.2.63:7878"
         //"127.0.0.1:7878"
         ).unwrap();
 

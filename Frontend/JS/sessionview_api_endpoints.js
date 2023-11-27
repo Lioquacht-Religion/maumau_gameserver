@@ -1,6 +1,6 @@
 function newSession(){
     let SelectSect =
-        document.getElementById("SelectSectWrapper");
+        document.getElementById("SelectSection");
     let CreateSect = document.getElementById("CreateSection");
     //CreateSect.classList.replace("NotActive", "Active");
     //SelectSect.classList.replace("Active", "NonActive");
@@ -13,10 +13,11 @@ function newSession(){
 
 function createSession(){
 const pl_name = document.getElementById("PlayerNameBox");
-
+const sess_name = document.getElementById("SessionNameBox");
 const max_count = document.getElementById("MaxPlayerCountBox");
 
 const url = base_api + "/maumau/session/create?plname=" + pl_name.value
+    + "&name=" + sess_name.value
     + "&maxplayercount=" + max_count.value;
 fetch(url, {
   method: "GET",
@@ -102,11 +103,12 @@ function fillSessionSelection(items){
         const element = items[index];
         let SessRow = document.createElement("tr");
         let SessionName = document.createElement("td");
-        SessionName.innerText = "" + index + " : " + element.session_key;
+        SessionName.innerText = "" + index + " : " + element.session_name;
         let SessionPlCount = document.createElement("td");
-        SessionPlCount.innerText = "" + element.player_count;
+        SessionPlCount.innerText =
+            "" + element.player_count + "/" + element.max_player_count;
         let SessionState = document.createElement("td");
-        SessionState.innerText = "curState";
+        SessionState.innerText = "" + element.session_state;
         let SessionBtn = document.createElement("td");
         let btn = document.createElement("button");
         btn.value = element.session_key;

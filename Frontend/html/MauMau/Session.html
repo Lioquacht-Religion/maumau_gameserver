@@ -14,9 +14,10 @@
         </head>
 
         <body>
-            <h1 id="Title">MauMau</h1>
-            <div id="SelectSectWrapper">
-            <div id="SelectSection" class="Active">
+            <h1 class="title">MauMau</h1>
+            <div id="SelectSection" class="SessionSection"
+
+            <div id="SelectSectWrapper" class="Active">
                 <div id="SelectButtons">
 
                 <button class="SelectBtn" onclick="newSession()" >new Session</button><br>
@@ -26,6 +27,7 @@
 
                 </div>
 
+                Search Session: <input id="SessionSearchbar" type="text"></input>
 
                 <table id="SessionsSelection"> </table>
 
@@ -34,7 +36,7 @@
             <br>
 
 
-            <div id="CreateSection" class="NotActive" hidden>
+            <div id="CreateSection" class="SessionSection NotActive" hidden>
                 Your Playername:
                 <input id="PlayerNameBox" type="text"> </input>
                 Your Sessionname:
@@ -50,7 +52,7 @@
             <div id="WaitSection" class="NotActive" hidden>
                 <h1>Sessionname: </h1><h1 id="SessionName">None</h1>
 
-                <h1>Your Name: </h1><h1 id="PlayerName">None</h1>
+                <h1>Your Name:</h1><h1 id="PlayerName">None</h1>
                 cur joint players: <div id="JointPlayerCount">0</div>
 
                 <button onclick="startSession()" >start current Session</button><br>
